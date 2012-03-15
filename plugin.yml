@@ -1,0 +1,164 @@
+name: ServerManager
+author: ryan7745
+main: me.ryan7745.servermanager.ServerManager
+version: 1.0.0
+description: General Commands for bukkit server.
+commands:
+  back:
+    usage: /back
+    description: Teleports you back to your last location.
+  ban:
+    usage: /ban <player>
+    description: Bans a player from the server.
+  who:
+    usage: /who <player>
+    description: Shows information about player.
+  clear:
+    usage: /clear [player]
+    description: Clears your own inventory or other players.
+    aliases: [ci]
+  time:
+    usage: /time <day|night>
+    description: Turns the current time to day.
+  invis:
+    usage: /invis [player]
+    description: Makes you invisible to other players.
+    aliases: [vanish]
+  feed:
+    usage: /feed [player]
+    description: Feed yourself or other players.
+  gamemode:
+    usage: /gamemode [player]
+    description: Changes your gamemode.
+    aliases: [gm]
+  heal:
+    usage: /heal [player]
+    description: Heal yourself or other players.
+  home:
+    usage: /home [player]
+    description: Teleports you to your set home, or players set home.
+  item:
+    usage: /item [id][:data] [amount] [player]
+    description: Give you items.
+    aliases: [i]
+  kick:
+    usage: /kick <player>
+    description: Kicks a player from the server.
+  kickall:
+    usage: /kickall [reason]
+    description: Kicks all players from the server.
+  sethome:
+    usage: /sethome
+    description: Sets your home.
+  setspawn:
+    usage: /setspawn
+    description: Sets the spawn for your world.
+  spawn:
+    usage: /spawn
+    description: Teleports you to the spawn.
+  maintenance:
+    usage: /maintenance
+    description: Toggles maintenance mode on or off for server.
+  weather:
+    usage: /weather <sun|rain|thunder>
+    description: Change the sky weather.
+  world:
+    usage: /world <world>
+    description: Teleport to world.
+  tp:
+    usage: /tp <player>
+    description: Teleports you to a player.
+  tpall:
+    usage: /tpall
+    description: Teleports everyone to you.
+    aliases: [tpa]
+  tphere:
+    usage: /tphere <player>
+    description: Teleports a player to you.
+    aliases: [tph]
+  unban:
+    usage: /unban <player>
+    description: Unbans a player from the server.
+  servermanager:
+    usage: /servermanager
+    description: Reloads plugin config.
+    aliases: [sm, manager]
+permissions:
+    servermanager.*:
+        description: Allows you to use all the commands
+        default: op
+    servermanager.back:
+        description: Allows you to teleport back to your last location
+        default: op
+    servermanager.ban:
+        description: Allows you to ban a player from the server
+        default: op
+    servermanager.clear:
+        description: Allows you to clear your inventory
+        default: op
+    servermanager.clear.others:
+        description: Allows you to clear other player's inventories
+        default: op
+    servermanager.time:
+        description: Allows you to change the time to day
+        default: op
+    servermanager.feed:
+        description: Allows you to feed yourself
+        default: op
+    servermanager.gamemode:
+        description: Allows you to change your own gamemode
+        default: op
+    servermanager.heal:
+        description: Allows you to heal yourself
+        default: op
+    servermanager.heal.others:
+        description: Allows you to heal other players
+        default: op
+    servermanager.home:
+        description: Allows you to teleport to your home
+        default: true
+    servermanager.item:
+        description: Allows you to spawn an item
+        default: op
+    servermanager.kick:
+        description: Allows you to kick a player from the server
+        default: op
+    servermanager.kickall:
+        description: Allows you to kick all players from server
+        default: op
+    servermanager.kickall.imune:
+        description: Prevents you being kicked on kickall
+        default: op
+    servermanager.sethome:
+        description: Allows you to set your home
+        default: true
+    servermanager.setspawn:
+        description: Allows you to set the spawn
+        default: op
+    servermanager.spawn:
+        description: Allows you to teleport to the spawn
+        default: true
+    servermanager.weather:
+        description: Allows you to change the weather
+        default: op
+    servermanager.tp:
+        description: Allows you to teleport to another player
+        default: op
+    servermanager.tpall:
+        description: Allows you to teleport everyone to you
+        default: op
+    servermanager.tphere:
+        description: Allows you to teleport a player to you
+        default: op
+    servermanager.who:
+        description: Allows you to view information about a player
+        default: op
+    servermanager.maintenance:
+        description: Toggle maintenance mode
+        default: op
+    servermanager.world:
+        description: Allows you to teleport to a world
+        default: op
+    servermanager.reload-config:
+        description: Reloads plugin config
+        default: op

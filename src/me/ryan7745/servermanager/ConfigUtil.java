@@ -1,0 +1,247 @@
+package me.ryan7745.servermanager;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
+import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+public class ConfigUtil {
+	
+	static ServerManager plugin;
+	
+	public ConfigUtil(ServerManager instance){
+		plugin = instance;
+	}
+	
+	public static YamlConfiguration getConfig(String confName){
+		if(confName == null) return null;
+		File file = new File(plugin.getDataFolder() + File.separator + confName + ".yml");	
+		if(file.exists()){
+			YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+			return conf;
+		}
+		return null;
+	}
+	
+	public static void loadConfig(String confName, String templateName){
+		if(confName == null) return;
+		
+		File dataFolder = new File(plugin.getDataFolder().toString());
+		File file = new File(plugin.getDataFolder() + File.separator + confName + ".yml");
+		
+		if(!dataFolder.exists()){
+			Util.debug("Trying to create plugin folder.");
+			try {
+                boolean success = new File(plugin.getDataFolder().toString()).mkdir();
+                if (success) {
+                    Util.log("Sucessfully created plugin folder.");
+                }
+            } catch (Exception e) {
+                Util.log("Failed to create plugin folder.");
+                Util.debug(e.getMessage());
+            }
+		}
+		
+		if(dataFolder.exists() && !file.exists()){
+			Util.debug("Trying to create file: " + confName);
+			try {
+                boolean success = false;
+        		InputStream templateIn = plugin.getResource("resources" + File.separator + templateName + ".yml");
+                OutputStream outStream = new FileOutputStream(file);
+                
+            	int read = 0;
+            	byte[] bytes = new byte[1024];
+             
+            	while ((read = templateIn.read(bytes)) != -1) {
+            		outStream.write(bytes, 0, read);
+            	}
+             
+            	templateIn.close();
+            	outStream.flush();
+            	outStream.close();
+                if (success) {
+                    Util.log("Sucessfully created file: " + confName);
+                }
+            } catch (Exception e) {
+                Util.log("Failed to create file: " + confName);
+                Util.debug(e.getMessage());
+            }
+		}
+	}
+	
+	//BEGIN CUSTOM CONFIG OPTIONS -->
+	
+	public static void mainConfVals(YamlConfiguration config){
+		Util.debug("Reloading config options.");
+
+		plugin.dropExtras = config.getBoolean("item.drop_extra_items", true);
+		plugin.useWelcome = config.getBoolean("general.use_welcome_message", true);
+		plugin.useMotd = config.getBoolean("general.use_motd", true);
+		plugin.broadcastkick = config.getBoolean("general.broadcast_kick", true);
+		plugin.broadcastban = config.getBoolean("general.broadcast_ban", true);
+		
+		plugin.welcomeMessage = config.getString("messages.welcome_message", "Welcome {name} to {world}!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		plugin.defaultKickMessage = config.getString("messages.default_kick_message", "&7You have been kicked!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		plugin.defaultBanMessage = config.getString("messages.default_ban_message", "&7The Banhammer has spoken!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		
+		plugin.disconnectMsgBanned = config.getString("disconnect_messages.banned", "&7You are banned from this server!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		plugin.disconnectMsgWhitelist = config.getString("disconnect_messages.whitelist", "&5You are not on the whitelist!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		plugin.disconnectMsgFull = config.getString("disconnect_messages.full", "&5The server is currently full, try again later!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		
+		plugin.motd = config.getStringList("motd");
+		
+		plugin.defaultStackSize = config.getInt("item.default_stack_size", 64);
+		
+		plugin.debug = config.getBoolean("debug", false);
+	}
+	//--> END CUSTOM CONFIG OPTIONS
+	
+	//player config methods from RoyalCommands by jkcclemens
+	public static void setPValString(OfflinePlayer t, String value, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            pconf.set(path, value);
+            try {
+                pconf.save(pconfl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setPValLong(OfflinePlayer t, long value, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            pconf.set(path, value);
+            try {
+                pconf.save(pconfl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setPVal(OfflinePlayer t, Object value, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            pconf.set(path, value);
+            try {
+                pconf.save(pconfl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setPValInteger(OfflinePlayer t, Integer value, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            pconf.set(path, value);
+            try {
+                pconf.save(pconfl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setPValStringList(OfflinePlayer t, List<String> value, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            pconf.set(path, value);
+            try {
+                pconf.save(pconfl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static List<String> getPValStringList(OfflinePlayer t, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            return pconf.getStringList(path);
+        }
+        return null;
+    }
+
+    public static void setPValBoolean(OfflinePlayer t, Boolean value, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            pconf.set(path, value);
+            try {
+                pconf.save(pconfl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean getPValBoolean(OfflinePlayer t, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            return pconf.getBoolean(path);
+        }
+        return false;
+    }
+
+    public static Integer getPValInteger(OfflinePlayer t, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            return pconf.getInt(path);
+        }
+        return -1;
+    }
+
+    public static Object getPVal(OfflinePlayer t, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            return pconf.get(path);
+        }
+        return false;
+    }
+
+    public static Long getPValLong(OfflinePlayer t, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            return pconf.getLong(path);
+        }
+        return -1L;
+    }
+
+    public static String getPValString(OfflinePlayer t, String path) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        if (pconfl.exists()) {
+            FileConfiguration pconf = YamlConfiguration.loadConfiguration(pconfl);
+            return pconf.getString(path);
+        }
+        return "";
+    }
+
+    public static boolean getPConfExists(OfflinePlayer t) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");
+        return pconfl.exists();
+    }
+
+    public static boolean getPConfExists(String name) {
+        File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + name.toLowerCase() + ".yml");
+        return pconfl.exists();
+    }
+}

@@ -1,0 +1,23 @@
+#on spawning items, drop items when inventory is full
+drop_extra_items: true
+#use the welcome message when a new player join the server
+use_welcome_message: true
+#use motd for players that join
+use_motd: true
+#broadcast when a player is kicked
+broadcast_kick: true
+#broadcast when a player is banned
+broadcast_ban: true
+#MESAGES
+#cusotm messages for events
+welcome_message: Welcome {name} to {world}!
+default_kick_message: You have been kicked!
+default_ban_message: The Banhammer has spoken!
+disconnect_messages:
+  banned: You are banned from this server!
+  whitelist: You are not on the whitelist!
+  full: The server is currently full, try again later!
+motd:
+- Welcome back {dispname}, You are in {world}!
+- There are currently {online-count} players online.
+default_stack_size: 64
