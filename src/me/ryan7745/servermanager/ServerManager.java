@@ -38,29 +38,10 @@ public class ServerManager extends JavaPlugin {
 	
 	public boolean debug = false;
 	
-	
 	public final ConfigUtil configUtil;
 	public final Util util;
-
-	//config options
-	public boolean dropExtras;
-	public boolean useWelcome;
-	public boolean useMotd;
-	public boolean broadcastkick;
-	public boolean broadcastban;
-
-	public int defaultStackSize;
-
-	public String welcomeMessage;
-	public String defaultKickMessage;
-	public String defaultBanMessage;
-	public String disconnectMsgBanned;
-	public String disconnectMsgWhitelist;
-	public String disconnectMsgFull;
 	
-	public List<String> motd = new ArrayList<String>();
-	
-	public ServerManager() {
+	public ServerManager() {	
         configUtil = new ConfigUtil(this);
         util = new Util(this);
     }
@@ -78,10 +59,15 @@ public class ServerManager extends JavaPlugin {
 		
 		ConfigUtil.loadConfig("config", "config");
 		mainConf = ConfigUtil.getConfig("config");
-		ConfigUtil.mainConfVals(mainConf);
+		
+		debug = mainConf.getBoolean("debug", false);
+		
+		GeoIP geoip = new GeoIP(this);
+		geoip.load();
 		
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerListener(this), this);
+		pm.registerEvents(geoip, this);
 		
 		registerCommands();
 		

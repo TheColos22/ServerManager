@@ -40,12 +40,13 @@ public class KickCommand implements CommandExecutor {
 						}
 					}
 					player.kickPlayer(kickmsg);
-					if(plugin.broadcastkick)
+					if(plugin.mainConf.getBoolean("general.broadcast-kick", true))
 						Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + player.getName() + " was kicked by " + sender.getName() + ". Reason: " + kickmsg));
 				} else {
-					player.kickPlayer(plugin.defaultKickMessage);
-					if(plugin.broadcastkick)
-						Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + player.getName() + " was kicked by " + sender.getName() + ". Reason: " + plugin.defaultKickMessage));
+					String kickmsg = plugin.mainConf.getString("messages.default-kick-message", "&7You have been kicked!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+					player.kickPlayer(kickmsg);
+					if(plugin.mainConf.getBoolean("general.broadcast-kick", true))
+						Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + player.getName() + " was kicked by " + sender.getName() + ". Reason: " + kickmsg));
 				}
 				return true;
 			}
@@ -58,7 +59,7 @@ public class KickCommand implements CommandExecutor {
 					return true;
 				}
 			}
-			String kickmsg = plugin.defaultKickMessage;
+			String kickmsg = plugin.mainConf.getString("messages.default-kick-message", "&7You have been kicked!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
 			if(args.length > 0){
 				kickmsg = "";
 				for (String s : args) { 

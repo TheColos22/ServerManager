@@ -39,7 +39,7 @@ public class ItemCommand implements CommandExecutor {
 				Player p = player;
 				Integer ID = null;
 				Short data = null;
-				Integer amount = plugin.defaultStackSize;
+				Integer amount = plugin.mainConf.getInt("item.default-stack-size", 64);
 				String called = args[0];
 				String cdata = null;
 				if(called.contains(":")){
@@ -102,7 +102,7 @@ public class ItemCommand implements CommandExecutor {
 					toInv = new ItemStack(Material.getMaterial(ID), amount);
 				}
 				HashMap<Integer, ItemStack> left = p.getInventory().addItem(toInv);
-                if (!left.isEmpty() && plugin.dropExtras) {
+                if (!left.isEmpty() && plugin.mainConf.getBoolean("item.drop-extra-items", true)) {
                     for (ItemStack item : left.values()) {
                         p.getWorld().dropItemNaturally(p.getLocation(), item);
                     }

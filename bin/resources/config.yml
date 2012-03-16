@@ -1,23 +1,38 @@
-#on spawning items, drop items when inventory is full
-drop_extra_items: true
-#use the welcome message when a new player join the server
-use_welcome_message: true
-#use motd for players that join
-use_motd: true
-#broadcast when a player is kicked
-broadcast_kick: true
-#broadcast when a player is banned
-broadcast_ban: true
-#MESAGES
-#cusotm messages for events
-welcome_message: Welcome {name} to {world}!
-default_kick_message: You have been kicked!
-default_ban_message: The Banhammer has spoken!
-disconnect_messages:
-  banned: You are banned from this server!
-  whitelist: You are not on the whitelist!
-  full: The server is currently full, try again later!
+#General config options
+general:
+  broadcast-ban: true
+  broadcast-kick: true
+  use-motd: true
+  use-welcome-message: true
+  show-location-message: true
+
+#Item command options
+item:
+  default-stack-size: 64
+  drop-extra-items: true
+
+geoip:
+  download-if-missing: true
+  download-url: 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz'
+
+#Misc. messages
+messages:
+  default-ban-message: '&7The Banhammer has spoken!'
+  default-kick-message: '&7You have been kicked!'
+  welcome-message: '&3Welcome {name} to {world}!'
+
+#Disconnect messages for when a player is kicked/denied on login
+disconnect-messages:
+  banned: '&7You are banned from this server!'
+  whitelist: '&6You are not on the whitelist!'
+  full: '&6The server is currently full, try again later!'
+
+#MOTD
+# You may use the following variables
+#{name} Players name
+#{dispname} Players display name
+#{online-count} Users online
+#{world} The world the player is in
 motd:
-- Welcome back {dispname}, You are in {world}!
-- There are currently {online-count} players online.
-default_stack_size: 64
+- '&6Welcome back {dispname}, You are in {world}!'
+- '&6There are currently {online-count} players online.'

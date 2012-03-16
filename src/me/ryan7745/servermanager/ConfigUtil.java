@@ -75,33 +75,6 @@ public class ConfigUtil {
 		}
 	}
 	
-	//BEGIN CUSTOM CONFIG OPTIONS -->
-	
-	public static void mainConfVals(YamlConfiguration config){
-		Util.debug("Reloading config options.");
-
-		plugin.dropExtras = config.getBoolean("item.drop_extra_items", true);
-		plugin.useWelcome = config.getBoolean("general.use_welcome_message", true);
-		plugin.useMotd = config.getBoolean("general.use_motd", true);
-		plugin.broadcastkick = config.getBoolean("general.broadcast_kick", true);
-		plugin.broadcastban = config.getBoolean("general.broadcast_ban", true);
-		
-		plugin.welcomeMessage = config.getString("messages.welcome_message", "Welcome {name} to {world}!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		plugin.defaultKickMessage = config.getString("messages.default_kick_message", "&7You have been kicked!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		plugin.defaultBanMessage = config.getString("messages.default_ban_message", "&7The Banhammer has spoken!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		
-		plugin.disconnectMsgBanned = config.getString("disconnect_messages.banned", "&7You are banned from this server!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		plugin.disconnectMsgWhitelist = config.getString("disconnect_messages.whitelist", "&5You are not on the whitelist!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		plugin.disconnectMsgFull = config.getString("disconnect_messages.full", "&5The server is currently full, try again later!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		
-		plugin.motd = config.getStringList("motd");
-		
-		plugin.defaultStackSize = config.getInt("item.default_stack_size", 64);
-		
-		plugin.debug = config.getBoolean("debug", false);
-	}
-	//--> END CUSTOM CONFIG OPTIONS
-	
 	//player config methods from RoyalCommands by jkcclemens
 	public static void setPValString(OfflinePlayer t, String value, String path) {
         File pconfl = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + t.getName().toLowerCase() + ".yml");

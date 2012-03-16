@@ -44,13 +44,14 @@ public class BanCommand implements CommandExecutor {
 						}
 						target.setBanned(true);
 						target.kickPlayer(banmsg);
-						if(plugin.broadcastban)
+						if(plugin.mainConf.getBoolean("general.broadcast-ban", true))
 							Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + target.getName() + " was " + ChatColor.RED + "banned" + ChatColor.BLUE + " by " + sender.getName() + ". Reason: " + banmsg));
 					} else {
 						target.setBanned(true);
-						target.kickPlayer(plugin.defaultBanMessage);
-						if(plugin.broadcastban)
-							Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + target.getName() + " was " + ChatColor.RED + "banned" + ChatColor.BLUE + " by " + sender.getName() + ". Reason: " + plugin.defaultBanMessage));
+						String banmsg = plugin.mainConf.getString("messages.default-ban-message", "&7The Banhammer has spoken!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+						target.kickPlayer(banmsg);
+						if(plugin.mainConf.getBoolean("general.broadcast-ban", true))
+							Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + target.getName() + " was " + ChatColor.RED + "banned" + ChatColor.BLUE + " by " + sender.getName() + ". Reason: " + banmsg));
 					}
 					return true;
 				} else {

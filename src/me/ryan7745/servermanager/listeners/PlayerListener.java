@@ -1,6 +1,7 @@
 package me.ryan7745.servermanager.listeners;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.util.Date;
 
 import me.ryan7745.servermanager.ConfigUtil;
@@ -27,6 +28,8 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+
+import com.maxmind.geoip.regionName;
 
 public class PlayerListener implements Listener {
 	
@@ -90,14 +93,14 @@ public class PlayerListener implements Listener {
     public void onPlayerLoginHigh(PlayerLoginEvent event){
     	Player player = event.getPlayer();
     	if(event.getResult().equals(Result.KICK_BANNED)){
-			event.setKickMessage(plugin.disconnectMsgBanned);
+			event.setKickMessage(plugin.mainConf.getString("disconnect-messages.banned", "&7You are banned from this server!").replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 			return;
 		} else if(event.getResult().equals(Result.KICK_WHITELIST)){
-			event.setKickMessage(plugin.disconnectMsgWhitelist);
+			event.setKickMessage(plugin.mainConf.getString("disconnect-messages.whitelist", "&5You are not on the whitelist!").replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 			Bukkit.broadcastMessage(ChatColor.GRAY + player.getName() + ChatColor.RED + " tried to join, Disconnected reason: Not on whitelist.");
 			return;
 		} else if(event.getResult().equals(Result.KICK_FULL)){
-			event.setKickMessage(plugin.disconnectMsgFull);
+			event.setKickMessage(plugin.mainConf.getString("disconnect-messages.full", "&5The server is currently full, try again later!").replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 			Bukkit.broadcastMessage(ChatColor.GRAY + player.getName() + ChatColor.RED + " tried to join, Disconnected reason: Server full.");
 			return;
 		}
@@ -137,17 +140,20 @@ public class PlayerListener implements Listener {
 		String name = player.getName();
 		Integer onlineplayers = Bukkit.getOnlinePlayers().length;
 		String world = event.getPlayer().getWorld().getName();
-        for (String s : plugin.motd) {
-            if (s == null) {
-                continue;
-            }
-            s = s.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            s = s.replace("{name}", name);
-            s = s.replace("{dispname}", dispname);
-            s = s.replace("{online-count}", onlineplayers.toString());
-            s = s.replace("{world}", world);
-            player.sendMessage(s);
-        }
+
+		if(plugin.mainConf.getBoolean("general.use-motd", true)){
+	        for (String s : plugin.mainConf.getStringList("motd")) {
+	            if (s == null) {
+	                continue;
+	            }
+	            s = s.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+	            s = s.replace("{name}", name);
+	            s = s.replace("{dispname}", dispname);
+	            s = s.replace("{online-count}", onlineplayers.toString());
+	            s = s.replace("{world}", world);
+	            player.sendMessage(s);
+	        }
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
@@ -171,9 +177,9 @@ public class PlayerListener implements Listener {
                 Util.log("Could not create userdata for user " + player.getName() + "!");
                 Util.debug("Failed to create user file: " + e.getMessage());
             }
-			if (plugin.useWelcome){
+			if (plugin.mainConf.getBoolean("general.use-welcome-message", true)){
 				Util.debug("First join for player, show welcome message.");
-                String welcomemessage = plugin.welcomeMessage;
+                String welcomemessage = plugin.mainConf.getString("messages.welcome-message", "Welcome {name} to {world}!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
                 welcomemessage = welcomemessage.replace("{name}", event.getPlayer().getName());
                 String dispname = event.getPlayer().getDisplayName();
                 if (dispname == null || dispname.equals("")) {

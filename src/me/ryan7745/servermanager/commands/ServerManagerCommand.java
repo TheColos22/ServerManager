@@ -27,7 +27,7 @@ public class ServerManagerCommand implements CommandExecutor {
 				}
 			}
 
-			ConfigUtil.mainConfVals(plugin.mainConf);
+			ConfigUtil.loadConfig("config", "config");
 			sender.sendMessage(Util.formatMessage("Config reloaded."));
 			return true;
 		}
