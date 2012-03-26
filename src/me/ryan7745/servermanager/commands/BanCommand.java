@@ -28,8 +28,8 @@ public class BanCommand implements CommandExecutor {
 				}
 			}
 			if(args.length > 0){
-				Player target = Bukkit.getPlayer(args[0]);
-				
+				OfflinePlayer target = Bukkit.getPlayer(args[0]);
+				Player otarget = Bukkit.getPlayer(args[0]);
 				if(target != null){
 					if(args.length > 1){
 						String banmsg = "";
@@ -43,13 +43,17 @@ public class BanCommand implements CommandExecutor {
 							}
 						}
 						target.setBanned(true);
-						target.kickPlayer(banmsg);
+						if(otarget != null){
+							otarget.kickPlayer(banmsg);
+						}
 						if(plugin.mainConf.getBoolean("general.broadcast-ban", true))
 							Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + target.getName() + " was " + ChatColor.RED + "banned" + ChatColor.BLUE + " by " + sender.getName() + ". Reason: " + banmsg));
 					} else {
 						target.setBanned(true);
 						String banmsg = plugin.mainConf.getString("messages.default-ban-message", "&7The Banhammer has spoken!").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-						target.kickPlayer(banmsg);
+						if(otarget != null){
+							otarget.kickPlayer(banmsg);
+						}
 						if(plugin.mainConf.getBoolean("general.broadcast-ban", true))
 							Bukkit.broadcastMessage(Util.formatBroadcast(ChatColor.BLUE + target.getName() + " was " + ChatColor.RED + "banned" + ChatColor.BLUE + " by " + sender.getName() + ". Reason: " + banmsg));
 					}

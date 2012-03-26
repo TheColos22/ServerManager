@@ -5,6 +5,7 @@ import me.ryan7745.servermanager.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,6 +34,10 @@ public class TeleportCommand implements CommandExecutor {
 			
 			if(args.length == 1){
 				Player target = Bukkit.getPlayer(args[0]);
+				if(target == null){
+					player.sendMessage(Util.formatMessage("Could not find player."));
+					return true;
+				}
 				player.sendMessage(Util.formatMessage("Teleporting to " + ChatColor.GRAY + target.getName() + ChatColor.BLUE + "."));
 				player.teleport(target.getLocation());
 				return true;

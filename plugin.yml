@@ -1,7 +1,7 @@
 name: ServerManager
 author: ryan7745
 main: me.ryan7745.servermanager.ServerManager
-version: 1.0.0
+version: 2.0.0
 description: General Commands for bukkit server.
 commands:
   back:
@@ -31,6 +31,9 @@ commands:
     usage: /gamemode [player]
     description: Changes your gamemode.
     aliases: [gm]
+  god:
+    usage: /god [player]
+    description: Makes you or [player] god.
   heal:
     usage: /heal [player]
     description: Heal yourself or other players.
@@ -76,6 +79,9 @@ commands:
     usage: /tphere <player>
     description: Teleports a player to you.
     aliases: [tph]
+  top:
+    usage: /top
+    description: Teleports you to the highest block at your position.
   unban:
     usage: /unban <player>
     description: Unbans a player from the server.
@@ -107,6 +113,9 @@ permissions:
         default: op
     servermanager.gamemode:
         description: Allows you to change your own gamemode
+        default: op
+    servermanager.god:
+        description: Allows you to change yours and others god mode
         default: op
     servermanager.heal:
         description: Allows you to heal yourself
@@ -152,6 +161,9 @@ permissions:
         default: op
     servermanager.who:
         description: Allows you to view information about a player
+        default: op
+    servermanager.top:
+        description: Teleports player to highest location
         default: op
     servermanager.maintenance:
         description: Toggle maintenance mode

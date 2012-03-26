@@ -7,6 +7,7 @@ import me.ryan7745.servermanager.commands.BackCommand;
 import me.ryan7745.servermanager.commands.BanCommand;
 import me.ryan7745.servermanager.commands.ClearInventoryCommand;
 import me.ryan7745.servermanager.commands.GamemodeCommand;
+import me.ryan7745.servermanager.commands.GodCommand;
 import me.ryan7745.servermanager.commands.HealthCommand;
 import me.ryan7745.servermanager.commands.HomeCommand;
 import me.ryan7745.servermanager.commands.ItemCommand;
@@ -15,9 +16,11 @@ import me.ryan7745.servermanager.commands.ServerManagerCommand;
 import me.ryan7745.servermanager.commands.SpawnCommand;
 import me.ryan7745.servermanager.commands.TeleportCommand;
 import me.ryan7745.servermanager.commands.TimeCommand;
+import me.ryan7745.servermanager.commands.TopCommand;
 import me.ryan7745.servermanager.commands.WeatherCommand;
 import me.ryan7745.servermanager.commands.WhoCommand;
 import me.ryan7745.servermanager.commands.WorldCommand;
+import me.ryan7745.servermanager.gui.ServerManagerGUI;
 import me.ryan7745.servermanager.listeners.PlayerListener;
 
 import org.bukkit.Bukkit;
@@ -40,6 +43,8 @@ public class ServerManager extends JavaPlugin {
 	
 	public final ConfigUtil configUtil;
 	public final Util util;
+	
+	public ServerManagerGUI gui;
 	
 	public ServerManager() {	
         configUtil = new ConfigUtil(this);
@@ -65,6 +70,8 @@ public class ServerManager extends JavaPlugin {
 		GeoIP geoip = new GeoIP(this);
 		geoip.load();
 		
+		gui = new ServerManagerGUI(this);
+		
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerListener(this), this);
 		pm.registerEvents(geoip, this);
@@ -81,6 +88,7 @@ public class ServerManager extends JavaPlugin {
 		getCommand("back").setExecutor(new BackCommand(this));
 		getCommand("clear").setExecutor(new ClearInventoryCommand(this));
 		getCommand("gamemode").setExecutor(new GamemodeCommand(this));
+		getCommand("god").setExecutor(new GodCommand(this));
 		getCommand("heal").setExecutor(new HealthCommand(this));
 		getCommand("home").setExecutor(new HomeCommand(this));
 		getCommand("sethome").setExecutor(new HomeCommand(this));
@@ -97,6 +105,7 @@ public class ServerManager extends JavaPlugin {
 		getCommand("tp").setExecutor(new TeleportCommand(this));
 		getCommand("tphere").setExecutor(new TeleportCommand(this));
 		getCommand("tpall").setExecutor(new TeleportCommand(this));
+		getCommand("top").setExecutor(new TopCommand(this));
 		getCommand("servermanager").setExecutor(new ServerManagerCommand(this));
 	}
 

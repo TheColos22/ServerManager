@@ -8,10 +8,17 @@ import me.ryan7745.servermanager.ConfigUtil;
 import me.ryan7745.servermanager.ServerManager;
 import me.ryan7745.servermanager.Util;
 import me.ryan7745.servermanager.commands.BackCommand;
+import me.ryan7745.servermanager.gui.TabPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Instrument;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -49,12 +56,14 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
 		Util.debug("Update seend for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
+        plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
     }
 
     @EventHandler
     public void onKick(PlayerKickEvent event) {
     	Util.debug("Update seend for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
+        plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
     }
     
     @EventHandler
@@ -73,6 +82,36 @@ public class PlayerListener implements Listener {
     	Player player = event.getPlayer();
     	
     	chat = chat.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+    	
+    	String[] notify_chat = chat.split(" ");
+    	for(String s: notify_chat){
+    		if(s.matches("@(.*)")){
+    			String st = s.substring(1);
+    			final Player notify_player = Bukkit.getPlayer(st);
+    			if(notify_player != null){
+    				notify_player.sendMessage("You have been tagged: ");
+    				
+    				final Block bLoc = notify_player.getLocation().getBlock().getRelative(BlockFace.NORTH);
+    				final Block bLocUp = bLoc.getRelative(BlockFace.UP);
+    				final Material old_mat = bLoc.getType();
+    				final Material old_mat_up = bLocUp.getType();
+    				bLoc.setType(Material.NOTE_BLOCK);
+    				bLocUp.setType(Material.AIR);
+    				
+    				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+
+						@Override
+						public void run() {
+							notify_player.playNote(bLoc.getLocation(), Instrument.PIANO, Note.natural(1, Tone.C));
+		    				bLoc.setType(old_mat);
+		    				bLocUp.setType(old_mat_up);
+						}
+    					
+    				});
+    			}
+    		}
+    	}
+    	
     	if(player.isOp()){
     		event.setFormat(ChatColor.GRAY + "[" + ChatColor.RED + player.getName() + ChatColor.GRAY + "]: " + ChatColor.WHITE + chat);
     	} else {
@@ -84,8 +123,10 @@ public class PlayerListener implements Listener {
     public void onEntityDamage(EntityDamageEvent event){
     	if(event.isCancelled()) return;
     	if(event.getEntity() instanceof Player){
-    		//Player player = (Player) event.getEntity();
-    		
+    		Player player = (Player) event.getEntity();
+    		if(ConfigUtil.getPVal(player, "god") != null && ConfigUtil.getPValBoolean(player, "god")){
+    			event.setCancelled(true);
+    		}
     	}
     }
     
@@ -108,8 +149,11 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
+    	if(plugin.debug){
+    		event.setMotd("This server is in Debug Mode.");
+    	}
     	Util.debug("Recieved ping request, setting MOTD: " + event.getMotd());
-      }
+    }
     
 	@EventHandler
 	public void onPlayerLogin(PlayerLoginEvent event){
@@ -154,6 +198,7 @@ public class PlayerListener implements Listener {
 	            player.sendMessage(s);
 	        }
 		}
+		plugin.gui.playerTab.listModel.addElement(event.getPlayer().getName());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
