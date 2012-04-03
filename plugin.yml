@@ -1,7 +1,7 @@
 name: ServerManager
 author: ryan7745
 main: me.ryan7745.servermanager.ServerManager
-version: 2.0.0
+version: 2.1.0
 description: General Commands for bukkit server.
 commands:
   back:
@@ -59,9 +59,6 @@ commands:
   spawn:
     usage: /spawn
     description: Teleports you to the spawn.
-  maintenance:
-    usage: /maintenance
-    description: Toggles maintenance mode on or off for server.
   weather:
     usage: /weather <sun|rain|thunder>
     description: Change the sky weather.
