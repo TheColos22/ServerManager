@@ -59,6 +59,9 @@ commands:
   spawn:
     usage: /spawn
     description: Teleports you to the spawn.
+  warp:
+    usage: /warp <create|remove|list|[warpname]> [warpname]
+    description: Change the sky weather.
   weather:
     usage: /weather <sun|rain|thunder>
     description: Change the sky weather.
@@ -144,6 +147,12 @@ permissions:
     servermanager.spawn:
         description: Allows you to teleport to the spawn
         default: true
+    servermanager.warp:
+        description: Warp to different places on the server
+        default: op
+    servermanager.warp.use:
+        description: Allows using warps
+        default: op
     servermanager.weather:
         description: Allows you to change the weather
         default: op

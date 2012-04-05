@@ -6,6 +6,10 @@ general:
   use-welcome-message: true
   show-location-message: true
 
+#Enable GUI Here!!!!
+gui:
+  enabled: false
+
 #Item command options
 item:
   default-stack-size: 64

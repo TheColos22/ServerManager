@@ -17,6 +17,7 @@ import me.ryan7745.servermanager.commands.SpawnCommand;
 import me.ryan7745.servermanager.commands.TeleportCommand;
 import me.ryan7745.servermanager.commands.TimeCommand;
 import me.ryan7745.servermanager.commands.TopCommand;
+import me.ryan7745.servermanager.commands.WarpCommand;
 import me.ryan7745.servermanager.commands.WeatherCommand;
 import me.ryan7745.servermanager.commands.WhoCommand;
 import me.ryan7745.servermanager.commands.WorldCommand;
@@ -38,6 +39,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerManager extends JavaPlugin {
 	public YamlConfiguration mainConf;
+	public YamlConfiguration warpConf;
 	
 	public boolean debug = false;
 	
@@ -45,6 +47,7 @@ public class ServerManager extends JavaPlugin {
 	public final Util util;
 	
 	public ServerManagerGUI gui;
+
 	
 	public ServerManager() {	
         configUtil = new ConfigUtil(this);
@@ -64,13 +67,17 @@ public class ServerManager extends JavaPlugin {
 		
 		ConfigUtil.loadConfig("config", "config");
 		mainConf = ConfigUtil.getConfig("config");
+		ConfigUtil.loadConfig("warps", "warps");
+		warpConf = ConfigUtil.getConfig("warps");
 		
 		debug = mainConf.getBoolean("debug", false);
 		
 		GeoIP geoip = new GeoIP(this);
 		geoip.load();
 		
-		gui = new ServerManagerGUI(this);
+		if(mainConf.getBoolean("gui.enabled")){
+			gui = new ServerManagerGUI(this);
+		}
 		
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerListener(this), this);
@@ -99,6 +106,7 @@ public class ServerManager extends JavaPlugin {
 		getCommand("spawn").setExecutor(new SpawnCommand(this));
 		getCommand("setspawn").setExecutor(new SpawnCommand(this));
 		getCommand("time").setExecutor(new TimeCommand(this));
+		getCommand("warp").setExecutor(new WarpCommand(this));
 		getCommand("who").setExecutor(new WhoCommand(this));
 		getCommand("world").setExecutor(new WorldCommand(this));
 		getCommand("weather").setExecutor(new WeatherCommand(this));

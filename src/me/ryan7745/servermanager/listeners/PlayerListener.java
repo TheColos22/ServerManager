@@ -57,14 +57,16 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
 		Util.debug("Update seend for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
-        plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
+        if(plugin.gui != null)
+        	plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
     }
 
     @EventHandler
     public void onKick(PlayerKickEvent event) {
     	Util.debug("Update seend for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
-        plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
+        if(plugin.gui != null)
+        	plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
     }
     
     @EventHandler
@@ -199,7 +201,8 @@ public class PlayerListener implements Listener {
 	            player.sendMessage(s);
 	        }
 		}
-		plugin.gui.playerTab.listModel.addElement(event.getPlayer().getName());
+		if(plugin.gui != null)
+			plugin.gui.playerTab.listModel.addElement(event.getPlayer().getName());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
