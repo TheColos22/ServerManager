@@ -55,7 +55,7 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler
     public void onQuit(PlayerQuitEvent event) {
-		Util.debug("Update seend for player: " + event.getPlayer().getName());
+		Util.debug("Update seen for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
         if(plugin.gui != null)
         	plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
@@ -63,7 +63,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onKick(PlayerKickEvent event) {
-    	Util.debug("Update seend for player: " + event.getPlayer().getName());
+    	Util.debug("Update seen for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
         if(plugin.gui != null)
         	plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
@@ -81,17 +81,17 @@ public class PlayerListener implements Listener {
     	if(event.isCancelled()) return;
     	if (event.getMessage() == null) return;
     	
-    	String chat = event.getMessage();
+    	String chat = String.valueOf(event.getMessage()).replaceAll("%", "%%");
     	Player player = event.getPlayer();
     	
-    	chat = chat.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-    	
+    	//notification alerts
     	String[] notify_chat = chat.split(" ");
     	for(String s: notify_chat){
     		if(s.matches("@(.*)")){
     			String st = s.substring(1);
     			final Player notify_player = Bukkit.getPlayer(st);
     			if(notify_player != null){
+    				
     				notify_player.sendMessage("You have been tagged: ");
     				
     				final Block bLoc = notify_player.getLocation().getBlock().getRelative(BlockFace.NORTH);
@@ -115,11 +115,15 @@ public class PlayerListener implements Listener {
     		}
     	}
     	
-    	if(player.isOp()){
-    		event.setFormat(ChatColor.GRAY + "[" + ChatColor.RED + player.getName() + ChatColor.GRAY + "]: " + ChatColor.WHITE + chat);
-    	} else {
-    		event.setFormat(ChatColor.GRAY + "[" + player.getName() + "]: " + ChatColor.WHITE + chat);
-    	}
+    	//chat formatting, custom chat support
+    	String format = plugin.mainConf.getString("chat.format", "&7[{name}&7]: &f{msg}");
+    	String name = player.getDisplayName();
+    	if(player.isOp()) name = "&4" + name;
+    	
+    	format = format.replace("{name}", name);
+    	format = format.replace("{msg}", chat);
+    	
+    	event.setFormat(format.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
     }
     
     @EventHandler

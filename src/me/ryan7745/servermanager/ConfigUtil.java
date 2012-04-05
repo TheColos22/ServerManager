@@ -29,6 +29,18 @@ public class ConfigUtil {
 		return null;
 	}
 	
+	public static void saveConfig(YamlConfiguration conf, String confName){
+		if(confName == null) return;
+		File file = new File(plugin.getDataFolder() + File.separator + confName + ".yml");	
+		if(file.exists()){
+			try {
+				conf.save(file);
+			} catch (IOException e) {
+				Util.log("Failed to save config");
+			}
+		}
+	}
+	
 	public static void loadConfig(String confName, String templateName){
 		if(confName == null) return;
 		

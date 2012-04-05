@@ -12,6 +12,7 @@ import me.ryan7745.servermanager.commands.HealthCommand;
 import me.ryan7745.servermanager.commands.HomeCommand;
 import me.ryan7745.servermanager.commands.ItemCommand;
 import me.ryan7745.servermanager.commands.KickCommand;
+import me.ryan7745.servermanager.commands.NicknameCommand;
 import me.ryan7745.servermanager.commands.ServerManagerCommand;
 import me.ryan7745.servermanager.commands.SpawnCommand;
 import me.ryan7745.servermanager.commands.TeleportCommand;
@@ -103,6 +104,7 @@ public class ServerManager extends JavaPlugin {
 		getCommand("item").setExecutor(new ItemCommand(this));
 		getCommand("kick").setExecutor(new KickCommand(this));
 		getCommand("kickall").setExecutor(new KickCommand(this));
+		getCommand("nickname").setExecutor(new NicknameCommand(this));
 		getCommand("spawn").setExecutor(new SpawnCommand(this));
 		getCommand("setspawn").setExecutor(new SpawnCommand(this));
 		getCommand("time").setExecutor(new TimeCommand(this));

@@ -50,6 +50,10 @@ commands:
   kickall:
     usage: /kickall [reason]
     description: Kicks all players from the server.
+  nickname:
+    usage: /nickname [player]
+    description: Changes your nickname
+    aliases: [nick]
   sethome:
     usage: /sethome
     description: Sets your home.
@@ -173,6 +177,9 @@ permissions:
         default: op
     servermanager.maintenance:
         description: Toggle maintenance mode
+        default: op
+    servermanager.nickname:
+        description: Allows changing nickname
         default: op
     servermanager.world:
         description: Allows you to teleport to a world
