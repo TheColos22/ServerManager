@@ -34,7 +34,7 @@ public class SpawnCommand implements CommandExecutor {
 			}
 			
 			Location loc = player.getWorld().getSpawnLocation();
-			if(loc.getBlock().getType().equals(Material.AIR) || loc.getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)){
+			if(!loc.getBlock().getType().equals(Material.AIR) || !loc.getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)){
 				loc = loc.getWorld().getHighestBlockAt(loc).getLocation();
 			}
 

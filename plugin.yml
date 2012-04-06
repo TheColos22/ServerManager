@@ -1,7 +1,7 @@
 name: ServerManager
 author: ryan7745
 main: me.ryan7745.servermanager.ServerManager
-version: 2.1.0
+version: 3.0.0
 description: General Commands for bukkit server.
 commands:
   back:
@@ -175,15 +175,12 @@ permissions:
     servermanager.top:
         description: Teleports player to highest location
         default: op
-    servermanager.maintenance:
-        description: Toggle maintenance mode
-        default: op
     servermanager.nickname:
         description: Allows changing nickname
         default: op
     servermanager.world:
         description: Allows you to teleport to a world
         default: op
-    servermanager.reload-config:
-        description: Reloads plugin config
-        default: op
+    servermanager.info:
+        description: Returns info about ServerManager
+        default: true

@@ -21,7 +21,7 @@ public class ServerManagerCommand implements CommandExecutor {
 		if(cmd.getName().equalsIgnoreCase("servermanager")){
 			if(sender instanceof Player){
 				Player player = (Player) sender;
-				if(player != null && !plugin.hasPermission(player.getName(), "reload-config")){
+				if(player != null && !plugin.hasPermission(player.getName(), "info")){
 					Util.SendMessageNoPerms(sender);
 					return true;
 				}

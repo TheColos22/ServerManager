@@ -2,7 +2,9 @@ package me.ryan7745.servermanager.listeners;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import me.ryan7745.servermanager.ConfigUtil;
 import me.ryan7745.servermanager.ServerManager;
@@ -85,13 +87,15 @@ public class PlayerListener implements Listener {
     	Player player = event.getPlayer();
     	
     	//notification alerts
+    	List<String> p_tagged = new ArrayList<String>();
+    	
     	String[] notify_chat = chat.split(" ");
     	for(String s: notify_chat){
     		if(s.matches("@(.*)")){
     			String st = s.substring(1);
     			final Player notify_player = Bukkit.getPlayer(st);
-    			if(notify_player != null){
-    				
+    			if(notify_player != null && !p_tagged.contains(notify_player.getName())){
+    				p_tagged.add(notify_player.getName());
     				notify_player.sendMessage("You have been tagged: ");
     				
     				final Block bLoc = notify_player.getLocation().getBlock().getRelative(BlockFace.NORTH);

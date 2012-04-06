@@ -124,8 +124,8 @@ public class ServerManager extends JavaPlugin {
 		return hasPermission(player, perm);
 	}
 	public boolean hasPermission(Player player, String perm) {
-		if(player.hasPermission("servermanager." + perm)){
-			Util.debug("Checking permission for player: " + player.getName() + " and perm: " + "servermanager." + perm);
+		Util.debug("Checking permission for player: " + player.getName() + " and perm: " + "servermanager." + perm);
+		if(player.hasPermission("servermanager." + perm) || player.hasPermission("servermanager.*")){
 			return true;
 		}
 		return false;
