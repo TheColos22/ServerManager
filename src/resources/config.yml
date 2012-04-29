@@ -5,6 +5,7 @@ general:
   use-motd: true
   use-welcome-message: true
   show-location-message: true
+  old-tnt: false
 
 #Enable GUI Here!!!!
 gui:

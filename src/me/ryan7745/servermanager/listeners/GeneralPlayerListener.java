@@ -41,10 +41,10 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 import com.maxmind.geoip.regionName;
 
-public class PlayerListener implements Listener {
+public class GeneralPlayerListener implements Listener {
 	
 	ServerManager plugin;
-	public PlayerListener(ServerManager instance){
+	public GeneralPlayerListener(ServerManager instance){
 		plugin = instance;
 	}
 	

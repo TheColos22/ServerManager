@@ -33,9 +33,12 @@ public class WhoCommand implements CommandExecutor {
 				}
 			}
 			
-			
 			if(args.length == 1){
 				OfflinePlayer oplayer = Bukkit.getPlayer(args[0]);
+				if(oplayer == null){
+					sender.sendMessage(Util.formatMessage("Player not found"));
+					return true;
+				}
 				if(ConfigUtil.getPConfExists(oplayer)){
 					String ip = ConfigUtil.getPValString(oplayer, "ip");
 					String seen = ConfigUtil.getPValString(oplayer, "seen");

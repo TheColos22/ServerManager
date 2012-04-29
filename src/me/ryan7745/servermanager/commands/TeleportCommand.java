@@ -2,10 +2,8 @@ package me.ryan7745.servermanager.commands;
 
 import me.ryan7745.servermanager.ServerManager;
 import me.ryan7745.servermanager.Util;
+import me.ryan7745.servermanager.actions.Teleport;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,73 +11,74 @@ import org.bukkit.entity.Player;
 
 public class TeleportCommand implements CommandExecutor {
 	
+	Teleport TeleportHandler;
+	
 	ServerManager plugin;
 	public TeleportCommand(ServerManager instance) {
 		plugin = instance;
+		TeleportHandler = new Teleport(instance);
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("tp")){
-			if(!(sender instanceof Player)){
-				Util.SendMessageNotPlayer(sender);
-				return true;
+			Player player = null;
+			if(sender instanceof Player){
+				player = (Player) sender;
 			}
-			
-			Player player = (Player) sender;
-			if(!plugin.hasPermission(player.getName(), "tp")){
+			if(player != null && !plugin.hasPermission(player.getName(), "tp")){
 				Util.SendMessageNoPerms(sender);
 				return true;
 			}
-			
-			if(args.length == 1){
-				Player target = Bukkit.getPlayer(args[0]);
-				if(target == null){
-					player.sendMessage(Util.formatMessage("Could not find player."));
-					return true;
-				}
-				player.sendMessage(Util.formatMessage("Teleporting to " + ChatColor.GRAY + target.getName() + ChatColor.BLUE + "."));
-				player.teleport(target.getLocation());
-				return true;
+			if(args.length == 1 && player != null){
+				TeleportHandler.teleport(player, args[0]);
 			}
-			return false;
+			
+			if(args.length == 2){
+				TeleportHandler.teleport(args[0], args[1]);
+			}
+			
+			return true;
 		} else if(cmd.getName().equalsIgnoreCase("tphere")){
 			if(!(sender instanceof Player)){
 				Util.SendMessageNotPlayer(sender);
 				return true;
 			}
-			
 			Player player = (Player) sender;
 			if(!plugin.hasPermission(player.getName(), "tphere")){
 				Util.SendMessageNoPerms(sender);
 				return true;
 			}
-			
-			if(args.length == 1){
-				Player target = Bukkit.getPlayer(args[0]);
-				player.sendMessage(Util.formatMessage("Teleporting " + ChatColor.GRAY + target.getName() + ChatColor.BLUE + " to you."));
-				target.teleport(player.getLocation());
-				return true;
-			}
-			return false;
+			if(args.length == 1)
+				TeleportHandler.teleportHere(player, args[0]);
+				
+			return true;
 		} else if(cmd.getName().equalsIgnoreCase("tpall")){
 			if(!(sender instanceof Player)){
 				Util.SendMessageNotPlayer(sender);
 				return true;
 			}
-			
 			Player player = (Player) sender;
 			if(!plugin.hasPermission(player.getName(), "tpall")){
 				Util.SendMessageNoPerms(sender);
 				return true;
 			}
+			TeleportHandler.teleportAll(player);
 			
-			for(Player p : Bukkit.getOnlinePlayers()){
-				if(p.getName().equalsIgnoreCase(player.getName())){
-					p.teleport(player.getLocation());
-				}
+			return true;
+		} else if(cmd.getName().equalsIgnoreCase("tpworld")){
+			if(!(sender instanceof Player)){
+				Util.SendMessageNotPlayer(sender);
+				return true;
 			}
-			player.sendMessage(Util.formatMessage("Teleporting " + ChatColor.GRAY + "everyone" + ChatColor.BLUE + " to you."));
+			Player player = (Player) sender;
+			if(!plugin.hasPermission(player.getName(), "tpworld")){
+				Util.SendMessageNoPerms(sender);
+				return true;
+			}
+			if(args.length == 1)
+				TeleportHandler.teleportWorld(player, args[0]);
+			
 			return true;
 		}
 		return false;

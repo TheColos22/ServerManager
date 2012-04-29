@@ -1,7 +1,7 @@
 name: ServerManager
 author: ryan7745
 main: me.ryan7745.servermanager.ServerManager
-version: 3.0.0
+version: 3.1.0
 description: General Commands for bukkit server.
 commands:
   back:
@@ -17,6 +17,10 @@ commands:
     usage: /clear [player]
     description: Clears your own inventory or other players.
     aliases: [ci]
+  enchant:
+    usage: /enchant [enchantment]
+    description: Enchants the item in your hand.
+    aliases: [ec]
   time:
     usage: /time <day|night>
     description: Turns the current time to day.
@@ -69,9 +73,9 @@ commands:
   weather:
     usage: /weather <sun|rain|thunder>
     description: Change the sky weather.
-  world:
-    usage: /world <world>
-    description: Teleport to world.
+  tpworld:
+    usage: /tpworld <world>
+    description: Teleport you to world.
   tp:
     usage: /tp <player>
     description: Teleports you to a player.
@@ -178,7 +182,7 @@ permissions:
     servermanager.nickname:
         description: Allows changing nickname
         default: op
-    servermanager.world:
+    servermanager.tpworld:
         description: Allows you to teleport to a world
         default: op
     servermanager.info:

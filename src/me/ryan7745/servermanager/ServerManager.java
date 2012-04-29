@@ -1,11 +1,9 @@
 package me.ryan7745.servermanager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.ryan7745.servermanager.commands.BackCommand;
 import me.ryan7745.servermanager.commands.BanCommand;
 import me.ryan7745.servermanager.commands.ClearInventoryCommand;
+import me.ryan7745.servermanager.commands.EnchantCommand;
 import me.ryan7745.servermanager.commands.GamemodeCommand;
 import me.ryan7745.servermanager.commands.GodCommand;
 import me.ryan7745.servermanager.commands.HealthCommand;
@@ -21,9 +19,9 @@ import me.ryan7745.servermanager.commands.TopCommand;
 import me.ryan7745.servermanager.commands.WarpCommand;
 import me.ryan7745.servermanager.commands.WeatherCommand;
 import me.ryan7745.servermanager.commands.WhoCommand;
-import me.ryan7745.servermanager.commands.WorldCommand;
 import me.ryan7745.servermanager.gui.ServerManagerGUI;
-import me.ryan7745.servermanager.listeners.PlayerListener;
+import me.ryan7745.servermanager.listeners.ActionPlayerListener;
+import me.ryan7745.servermanager.listeners.GeneralPlayerListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,8 +32,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 /*
  * TODO
  * Add invisibility command
- * God mode
  * More basic commands
+ * Spawn mobs
+ * Give command
+ * visit/visitme commands
+ * 
  */
 
 public class ServerManager extends JavaPlugin {
@@ -66,6 +67,7 @@ public class ServerManager extends JavaPlugin {
 		Util.pdfFile = getDescription();
 		Util.log(Util.pdfFile.getName() + " Version " + Util.pdfFile.getVersion() + " Has been enabled!");
 		
+		
 		ConfigUtil.loadConfig("config", "config");
 		mainConf = ConfigUtil.getConfig("config");
 		ConfigUtil.loadConfig("warps", "warps");
@@ -81,7 +83,8 @@ public class ServerManager extends JavaPlugin {
 		}
 		
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new PlayerListener(this), this);
+		pm.registerEvents(new GeneralPlayerListener(this), this);
+		pm.registerEvents(new ActionPlayerListener(this), this);
 		pm.registerEvents(geoip, this);
 		
 		registerCommands();
@@ -95,6 +98,7 @@ public class ServerManager extends JavaPlugin {
 		getCommand("unban").setExecutor(new BanCommand(this));
 		getCommand("back").setExecutor(new BackCommand(this));
 		getCommand("clear").setExecutor(new ClearInventoryCommand(this));
+		getCommand("enchant").setExecutor(new EnchantCommand(this));
 		getCommand("gamemode").setExecutor(new GamemodeCommand(this));
 		getCommand("god").setExecutor(new GodCommand(this));
 		getCommand("heal").setExecutor(new HealthCommand(this));
@@ -110,11 +114,11 @@ public class ServerManager extends JavaPlugin {
 		getCommand("time").setExecutor(new TimeCommand(this));
 		getCommand("warp").setExecutor(new WarpCommand(this));
 		getCommand("who").setExecutor(new WhoCommand(this));
-		getCommand("world").setExecutor(new WorldCommand(this));
 		getCommand("weather").setExecutor(new WeatherCommand(this));
 		getCommand("tp").setExecutor(new TeleportCommand(this));
 		getCommand("tphere").setExecutor(new TeleportCommand(this));
 		getCommand("tpall").setExecutor(new TeleportCommand(this));
+		getCommand("tpworld").setExecutor(new TeleportCommand(this));
 		getCommand("top").setExecutor(new TopCommand(this));
 		getCommand("servermanager").setExecutor(new ServerManagerCommand(this));
 	}
