@@ -3,7 +3,6 @@ package me.ryan7745.servermanager.listeners;
 import java.util.Random;
 
 import me.ryan7745.servermanager.ServerManager;
-import me.ryan7745.servermanager.Util;
 import me.ryan7745.servermanager.actions.TentBuilder;
 
 import org.bukkit.GameMode;
@@ -11,7 +10,8 @@ import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.Vehicle;
@@ -19,7 +19,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.vehicle.VehicleCollisionEvent;
+import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
+import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -92,16 +93,15 @@ public class ActionPlayerListener implements Listener {
     	if (event.isCancelled()) return;
     	if(event.getExited() instanceof Player){
     		Vehicle ve = event.getVehicle();
-    	    Entity veE = event.getVehicle();
     	    Player player = (Player)event.getExited();
-    	    if (veE.getClass().getName() == "org.bukkit.craftbukkit.entity.CraftBoat") {
+    	    if (ve instanceof Boat) {
     	        ve.remove();
     	        if(player.getGameMode().equals(GameMode.SURVIVAL)){
     	        	PlayerInventory inventory = player.getInventory();
     	        	ItemStack boatstack = new ItemStack(Material.BOAT, 1);
     	        	inventory.addItem(new ItemStack[] { boatstack });
     	    	}
-    	    } else if (veE.getClass().getName() == "org.bukkit.craftbukkit.entity.CraftMinecart") {
+    	    } else if (ve instanceof Minecart) {
     	        ve.remove();
     	        if(player.getGameMode().equals(GameMode.SURVIVAL)){
     	        	PlayerInventory inventory = player.getInventory();
@@ -112,13 +112,4 @@ public class ActionPlayerListener implements Listener {
     	    
     	}
     }
-	
-	@EventHandler
-	public void VehicleCollision(VehicleCollisionEvent event){
-		Vehicle ve = event.getVehicle();
-		if(ve.isEmpty())
-			ve.remove();
-		else
-			ve.setVelocity(new Vector(0, 0, 0));
-	}
 }

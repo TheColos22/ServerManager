@@ -57,7 +57,7 @@ public class GeneralPlayerListener implements Listener {
 	
 	@EventHandler
     public void onQuit(PlayerQuitEvent event) {
-		Util.debug("Update seen for player: " + event.getPlayer().getName());
+		Util.debug("Update last seen for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
         if(plugin.gui != null)
         	plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());
@@ -65,7 +65,7 @@ public class GeneralPlayerListener implements Listener {
 
     @EventHandler
     public void onKick(PlayerKickEvent event) {
-    	Util.debug("Update seen for player: " + event.getPlayer().getName());
+    	Util.debug("Update last seen for player: " + event.getPlayer().getName());
         ConfigUtil.setPValString(event.getPlayer(), new Date().toString(), "seen");
         if(plugin.gui != null)
         	plugin.gui.playerTab.listModel.removeElement(event.getPlayer().getName());

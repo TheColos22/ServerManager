@@ -21,6 +21,9 @@ commands:
     usage: /enchant [enchantment]
     description: Enchants the item in your hand.
     aliases: [ec]
+  fly:
+    usage: /fly
+    description: Disables/Enables creative flying in survival or creative mode.
   time:
     usage: /time <day|night>
     description: Turns the current time to day.
@@ -115,6 +118,9 @@ permissions:
         default: op
     servermanager.time:
         description: Allows you to change the time to day
+        default: op
+    servermanager.fly:
+        description: Allows you to enable/disable flying
         default: op
     servermanager.feed:
         description: Allows you to feed yourself

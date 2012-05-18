@@ -21,19 +21,19 @@ public class Teleport {
 		plugin = instance;
 	}
 
-	public void teleport(String playerName, String targetName){
+	public void teleport(Player sender, String playerName, String targetName){
 		Player player = Bukkit.getPlayer(targetName);
 		if(player == null){
-			player.sendMessage(Util.formatMessage("Could not find player."));
+			sender.sendMessage(Util.formatMessage("Could not find player."));
 			return;
 		}
-		teleport(player, targetName);
+		teleport(sender, player, targetName);
 	}
 	
-	public void teleport(Player player, String targetName){
+	public void teleport(Player sender, Player player, String targetName){
 		Player target = Bukkit.getPlayer(targetName);
 		if(target == null){
-			player.sendMessage(Util.formatMessage("Could not find player."));
+			sender.sendMessage(Util.formatMessage("Could not find player."));
 			return;
 		}
 		player.sendMessage(Util.formatMessage("Teleporting to " + ChatColor.GRAY + target.getName() + ChatColor.BLUE + "."));

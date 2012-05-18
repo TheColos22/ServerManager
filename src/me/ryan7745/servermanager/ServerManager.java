@@ -4,6 +4,7 @@ import me.ryan7745.servermanager.commands.BackCommand;
 import me.ryan7745.servermanager.commands.BanCommand;
 import me.ryan7745.servermanager.commands.ClearInventoryCommand;
 import me.ryan7745.servermanager.commands.EnchantCommand;
+import me.ryan7745.servermanager.commands.FlyCommand;
 import me.ryan7745.servermanager.commands.GamemodeCommand;
 import me.ryan7745.servermanager.commands.GodCommand;
 import me.ryan7745.servermanager.commands.HealthCommand;
@@ -99,6 +100,7 @@ public class ServerManager extends JavaPlugin {
 		getCommand("back").setExecutor(new BackCommand(this));
 		getCommand("clear").setExecutor(new ClearInventoryCommand(this));
 		getCommand("enchant").setExecutor(new EnchantCommand(this));
+		getCommand("fly").setExecutor(new FlyCommand(this));
 		getCommand("gamemode").setExecutor(new GamemodeCommand(this));
 		getCommand("god").setExecutor(new GodCommand(this));
 		getCommand("heal").setExecutor(new HealthCommand(this));
@@ -123,13 +125,15 @@ public class ServerManager extends JavaPlugin {
 		getCommand("servermanager").setExecutor(new ServerManagerCommand(this));
 	}
 
+	String basePerm = "servermanager";
+	
 	public boolean hasPermission(String name, String perm) {
 		Player player = Bukkit.getPlayer(name);
 		return hasPermission(player, perm);
 	}
 	public boolean hasPermission(Player player, String perm) {
-		Util.debug("Checking permission for player: " + player.getName() + " and perm: " + "servermanager." + perm);
-		if(player.hasPermission("servermanager." + perm) || player.hasPermission("servermanager.*")){
+		Util.debug("Checking permission for player: " + player.getName() + " and perm: " + basePerm + "." + perm);
+		if(player.hasPermission(basePerm + "." + perm) || player.hasPermission(basePerm + ".*")){
 			return true;
 		}
 		return false;

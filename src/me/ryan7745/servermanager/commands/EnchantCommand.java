@@ -44,7 +44,11 @@ public class EnchantCommand implements CommandExecutor {
 			}
 			
 			ItemStack is = player.getItemInHand();
-
+			
+			if(!this.enchantment.containsKey(args[0])){
+				player.sendMessage(Util.formatMessage("Enchantment not found."));
+				return true;
+			}
             Enchantment e = (Enchantment)this.enchantment.get(args[0]);
             if (e.canEnchantItem(is)) {
               int max = e.getMaxLevel();
