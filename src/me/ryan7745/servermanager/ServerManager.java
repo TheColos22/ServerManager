@@ -9,6 +9,10 @@ import me.ryan7745.servermanager.commands.GamemodeCommand;
 import me.ryan7745.servermanager.commands.GodCommand;
 import me.ryan7745.servermanager.commands.HealthCommand;
 import me.ryan7745.servermanager.commands.HomeCommand;
+<<<<<<< HEAD
+=======
+import me.ryan7745.servermanager.commands.InvisCommand;
+>>>>>>> Update
 import me.ryan7745.servermanager.commands.ItemCommand;
 import me.ryan7745.servermanager.commands.KickCommand;
 import me.ryan7745.servermanager.commands.NicknameCommand;
@@ -37,7 +41,11 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Spawn mobs
  * Give command
  * visit/visitme commands
+<<<<<<< HEAD
  * 
+=======
+ * Admin/Op chat with '.'
+>>>>>>> Update
  */
 
 public class ServerManager extends JavaPlugin {
@@ -105,6 +113,10 @@ public class ServerManager extends JavaPlugin {
 		getCommand("god").setExecutor(new GodCommand(this));
 		getCommand("heal").setExecutor(new HealthCommand(this));
 		getCommand("home").setExecutor(new HomeCommand(this));
+<<<<<<< HEAD
+=======
+		getCommand("invis").setExecutor(new InvisCommand(this));
+>>>>>>> Update
 		getCommand("sethome").setExecutor(new HomeCommand(this));
 		getCommand("feed").setExecutor(new HealthCommand(this));
 		getCommand("item").setExecutor(new ItemCommand(this));
